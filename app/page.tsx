@@ -11,28 +11,28 @@ export default function LandingPage() {
           maintain streaks, and keep your companion thriving as you complete tasks.
         </p>
         <div className="cta-row">
-          <Link href="/dashboard" className="btn btn-primary">
+          <Link href="/login" className="btn btn-primary">
             Open PetQuest Dashboard
           </Link>
-          <a href="#summary" className="btn btn-secondary">
+          <Link href="/summary" className="btn btn-secondary">
             Explore Features
-          </a>
+          </Link>
         </div>
       </section>
 
-      <section id="summary" className="summary-grid">
+      <section className="summary-grid">
         {[
           {
-            title: 'Gamified Task Flow',
-            text: 'Organize tasks with filters, sorting, and smart statuses for better focus.',
+            title: 'Login + Pet Onboarding',
+            text: 'Sign in with username/password, then choose Dog, Cat, Bird, or Dragon.',
           },
           {
-            title: 'Pet Wellness Loop',
-            text: 'Every completed task feeds XP, mood, and energy to your companion.',
+            title: 'Task Creator',
+            text: 'Create custom tasks with title, description, due date, and priority.',
           },
           {
-            title: 'Performance Insights',
-            text: 'Use weekly trends, streak tracking, and achievements to sustain progress.',
+            title: 'Pet Mood + Admin Insights',
+            text: 'Your pet mood updates as you complete tasks. Admin panel shows analytics.',
           },
         ].map((item) => (
           <article key={item.title} className="glass-card feature-card">
