@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0f0f1a;
+  color: #ffffff;
+}
+
+.card {
+  @apply bg-card border border-white/10 rounded-xl;
+}
+
+.btn {
+  @apply bg-accent text-white px-4 py-2 rounded-xl transition-all duration-200 hover:opacity-90;
+}
+
+.input {
+  @apply w-full rounded-xl bg-secondary border border-white/10 text-white placeholder:text-muted focus:border-accent focus:ring-accent;
+}

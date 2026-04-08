@@ -1,24 +1,18 @@
 {
-  "name": "petquestfr",
-  "version": "0.1.0",
+  "name": "petquest",
   "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "15.3.8",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "seed": "npm run seed --workspace=server",
+    "build": "npm run build --workspace=client",
+    "start": "npm run start --workspace=server"
   },
   "devDependencies": {
-    "@types/node": "^22.14.1",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
-    "eslint": "^9.24.0",
-    "eslint-config-next": "15.3.8",
-    "typescript": "^5.8.3"
+    "concurrently": "^9.1.2"
   }
 }

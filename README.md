@@ -1,51 +1,52 @@
-# Pet Quest
+# Pet Quest Productivity App
 
-Pet Quest is a local-first, gamified task management app where completing tasks earns points and helps a virtual pet grow.
+A full-stack productivity app where completing tasks helps your virtual pet level up.
 
-## Stack
-- Next.js (App Router)
-- TypeScript
-- Custom CSS (dark premium UI)
-- localStorage persistence (no backend, no database)
+## Tech Stack
+- Frontend: React + Vite + Tailwind CSS
+- Backend: Node.js + Express
+- Database: SQLite (`better-sqlite3`)
+- Auth: JWT stored in `localStorage`
 
-## Features
-- Landing page with CTA into dashboard
-- Task management: add, complete, filter, sort
-- Gamification: points, streak, achievements
-- Virtual pet progression: mood, energy, level, stage
-- Local persistence and reset controls
+## Project Structure
+- `client/` - React UI
+- `server/` - Express API + SQLite
 
-## Local development
-```bash
-npm install
-npm run dev
+## Setup
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Seed database:
+   ```bash
+   npm run seed
+   ```
+3. Start frontend + backend in dev mode:
+   ```bash
+   npm run dev
+   ```
+
+- Client: http://localhost:5173
+- Server: http://localhost:4000
+
+## Demo Accounts
+- Admin: `admin` / `admin123`
+- User: `alex` / `alex123`
+- User: `mila` / `mila123`
+
+## API Routes
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `PUT /api/auth/pet`
+- `GET /api/tasks`
+- `POST /api/tasks`
+- `PATCH /api/tasks/:id`
+- `DELETE /api/tasks/:id`
+- `GET /api/admin/stats` (admin)
+- `GET /api/admin/users` (admin)
+
+All API errors return JSON:
+```json
+{ "error": "message" }
 ```
-Open `http://localhost:3000`.
-
-## Production build
-```bash
-npm run build
-npm run start
-```
-
-## Vercel deployment
-1. Push this repository to GitHub.
-2. Import it in Vercel.
-3. Set **Framework Preset** to `Next.js`.
-4. Set **Root Directory** to repository root (where `package.json` exists).
-5. Deploy.
-
-No environment variables are required.
-
-## Persistence model
-All app data is saved in browser `localStorage` through `lib/storage.ts`.
-
-Data includes:
-- tasks
-- points/streak
-- pet status
-- achievements
-- settings
-
-## Architecture notes
-The app intentionally has no database setup. To add a backend later, keep UI/domain logic and replace the storage adapter with API calls.
