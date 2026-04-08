@@ -1,11 +1,18 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { checkAchievementUnlocks, type Achievement } from '../lib/achievements';
 import { calculateTaskPoints, type Priority } from '../lib/gamification';
 import { getGrowthStage, getLevelFromPoints, updatePetState, type PetState } from '../lib/pet';
 import { updateStreak } from '../lib/streak';
 
+const APP_STORAGE_KEY = 'petquest:webapp:v1';
+
 export type TaskFilter = 'all' | 'active' | 'completed';
 export type TaskSort = 'createdAt' | 'dueDate' | 'priority';
+export type PetType = 'Dog' | 'Cat' | 'Bird' | 'Dragon';
+
+export interface UserSession {
+  username: string;
+}
 
 export interface Task {
   id: string;
@@ -28,6 +35,8 @@ export interface PetQuestState {
   lastCompletedDate: string | null;
   achievements: Achievement[];
   pet: PetState;
+  selectedPetType: PetType | null;
+  user: UserSession | null;
 }
 
 export interface NewTaskInput {
@@ -58,6 +67,8 @@ const INITIAL_STATE: PetQuestState = {
     level: 1,
     stage: 'egg',
   },
+  selectedPetType: null,
+  user: null,
 };
 
 function sortTasks(tasks: Task[], sort: TaskSort): Task[] {
@@ -90,13 +101,56 @@ export function usePetQuestStore(initialState?: Partial<PetQuestState>) {
     tasks: initialState?.tasks ?? INITIAL_STATE.tasks,
     achievements: initialState?.achievements ?? INITIAL_STATE.achievements,
   });
+  const [isHydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const raw = window.localStorage.getItem(APP_STORAGE_KEY);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw) as PetQuestState;
+        setState({
+          ...INITIAL_STATE,
+          ...parsed,
+          pet: { ...INITIAL_STATE.pet, ...(parsed.pet ?? {}) },
+          tasks: parsed.tasks ?? [],
+          achievements: parsed.achievements ?? [],
+        });
+      } catch {
+        setState(INITIAL_STATE);
+      }
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated || typeof window === 'undefined') return;
+    window.localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(state));
+  }, [isHydrated, state]);
+
+  const login = useCallback((username: string) => {
+    setState((prev) => ({ ...prev, user: { username } }));
+  }, []);
+
+  const logout = useCallback(() => {
+    setState((prev) => ({
+      ...INITIAL_STATE,
+      selectedPetType: prev.selectedPetType,
+      user: null,
+    }));
+  }, []);
+
+  const choosePet = useCallback((petType: PetType) => {
+    setState((prev) => ({ ...prev, selectedPetType: petType }));
+  }, []);
 
   const addTask = useCallback((input: NewTaskInput) => {
+    if (!input.title.trim()) return;
     setState((prev) => {
       const now = new Date().toISOString();
       const nextTask: Task = {
         id: crypto.randomUUID(),
-        title: input.title,
+        title: input.title.trim(),
         description: input.description,
         priority: input.priority ?? 'medium',
         dueDate: input.dueDate ?? null,
@@ -132,22 +186,6 @@ export function usePetQuestStore(initialState?: Partial<PetQuestState>) {
     setState((prev) => ({
       ...prev,
       tasks: prev.tasks.filter((task) => task.id !== taskId),
-    }));
-  }, []);
-
-  const toggleComplete = useCallback((taskId: string) => {
-    setState((prev) => ({
-      ...prev,
-      tasks: prev.tasks.map((task) =>
-        task.id === taskId
-          ? {
-              ...task,
-              completed: !task.completed,
-              completedAt: !task.completed ? new Date().toISOString() : null,
-              updatedAt: new Date().toISOString(),
-            }
-          : task,
-      ),
     }));
   }, []);
 
@@ -218,7 +256,7 @@ export function usePetQuestStore(initialState?: Partial<PetQuestState>) {
   }, []);
 
   const resetAllData = useCallback(() => {
-    setState(INITIAL_STATE);
+    setState((prev) => ({ ...INITIAL_STATE, selectedPetType: prev.selectedPetType, user: prev.user }));
   }, []);
 
   const visibleTasks = useMemo(() => {
@@ -230,13 +268,37 @@ export function usePetQuestStore(initialState?: Partial<PetQuestState>) {
     return sortTasks(filtered, state.sort);
   }, [state.filter, state.sort, state.tasks]);
 
+  const analytics = useMemo(() => {
+    const completed = state.tasks.filter((task) => task.completed);
+    const completionRate = state.tasks.length ? Math.round((completed.length / state.tasks.length) * 100) : 0;
+    const byPriority = {
+      high: state.tasks.filter((task) => task.priority === 'high').length,
+      medium: state.tasks.filter((task) => task.priority === 'medium').length,
+      low: state.tasks.filter((task) => task.priority === 'low').length,
+    };
+
+    return {
+      totalTasks: state.tasks.length,
+      completedTasks: completed.length,
+      completionRate,
+      byPriority,
+      currentStreak: state.streak,
+      points: state.points,
+      achievements: state.achievements.length,
+    };
+  }, [state]);
+
   return {
     state,
+    isHydrated,
     visibleTasks,
+    analytics,
+    login,
+    logout,
+    choosePet,
     addTask,
     editTask,
     deleteTask,
-    toggleComplete,
     setFilter,
     setSort,
     completeTaskAndReward,
