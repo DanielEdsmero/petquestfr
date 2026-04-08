@@ -1,57 +1,91 @@
-# Pet Quest (Local-First)
+# Pet Quest
 
-Pet Quest is a fully local-first, browser-based productivity app for students. It starts empty and persists all user data in the browser via `localStorage`.
+Pet Quest is a **gamified task management app** where productivity directly supports a **virtual pet companion**. Users create and complete tasks, earn progress rewards, and keep their pet happy through consistent daily habits. The project is designed to be **local-first** and simple to run, with all app state persisted in the browser.
 
-## Stack
-- JavaScript (ES Modules)
-- CSS
-- HTML
-- No backend required
+## Project Overview
 
-## Features
-- Dashboard (today/overdue/upcoming, points, streak, pet status)
-- Task CRUD with due dates, priority, category, notes
-- Task search/filter/sort and status labels
-- Gamification (points, streak, pet mood/energy/level/stage)
-- Progress analytics (weekly/category/points summaries)
-- Pretest/Posttest surveys with Likert 1-4 dimensions
-- Profile/settings (student name, section, pet selection, theme, reset)
+Pet Quest combines two core experiences:
 
-## Run locally
-Because this app uses ES modules, serve it with a static local server.
+- **Task management**: create, organize, and complete personal tasks.
+- **Virtual pet gameplay loop**: task completion fuels pet progression (mood, energy, level, and growth stages).
 
-### Option A: VS Code Live Server
-1. Open this folder in VS Code.
-2. Start Live Server on `index.html`.
+This creates a lightweight habit-building system where real-world consistency translates into in-app pet care and progression.
 
-### Option B: Python
+## Tech Stack
+
+- **Next.js** for app framework and routing
+- **TypeScript** for type-safe development
+- **Tailwind CSS** for styling
+- **localStorage** for client-side persistence
+
+## Local Setup
+
+Install dependencies and start the development server:
+
 ```bash
-python3 -m http.server 5173
+npm install
+npm run dev
 ```
-Then open: `http://localhost:5173`
 
-## Deploy to Vercel
-This is a static app, so you can deploy directly:
-1. Import the repository in Vercel.
-2. Use default static settings (no server required).
-3. Deploy.
+Then open the local URL shown in your terminal (typically `http://localhost:3000`).
 
-## Local storage design
-Storage adapter is in:
-- `src/storage/localStore.js`
+## Production Build / Start
 
-State schema is in:
-- `src/constants/schema.js`
+Create a production build and run the production server:
 
-`localStore` exposes:
-- `load()`
-- `save(state)`
-- `reset()`
+```bash
+npm run build
+npm run start
+```
 
-## Replacing storage with a real backend later
-When ready, swap `localStore` with a repository/API layer that has the same methods:
-- Replace calls in `src/main.js` (`load/save/reset`) with async API calls.
-- Keep logic modules unchanged (`src/logic/*`) and UI layer unchanged (`src/ui/*`).
-- Good future targets: REST API, SQLite service, or Postgres service.
+## Deploying to Vercel
 
-This keeps UI/business logic separated from persistence.
+No environment variables are required for the current local-first architecture.
+
+1. Push your repository to GitHub/GitLab/Bitbucket.
+2. In Vercel, click **Add New Project**.
+3. Import this repository.
+4. Keep the detected Next.js build settings (defaults are fine).
+5. Leave Environment Variables empty.
+6. Click **Deploy**.
+
+## Data Model Summary
+
+The app’s persisted state is organized around a small set of client-side entities, for example:
+
+- **tasks**: task metadata (title, status, due date, priority, etc.)
+- **pet**: virtual pet stats/progression (mood, energy, level, stage)
+- **profile/settings**: user preferences and UI configuration
+- **progress/gameplay metrics**: points, streaks, and summary counters
+
+### localStorage Key Strategy
+
+Use namespaced keys to keep data clear and versionable:
+
+- `petquest:v1:tasks`
+- `petquest:v1:pet`
+- `petquest:v1:profile`
+- `petquest:v1:stats`
+
+Recommended approach:
+
+- Prefix keys with `petquest` to avoid collisions.
+- Include a schema version (for example `v1`) to support future migrations.
+- Keep domain data in separate keys for safer partial resets and easier debugging.
+
+## Architecture Constraint
+
+**This project has no database and no backend dependencies.**
+
+All persistence is handled in-browser via `localStorage`, and application behavior is client-driven.
+
+## Future Extension: Replacing localStorage with a Real API/Database
+
+When scaling beyond local persistence, swap the storage layer behind a stable interface:
+
+1. Introduce a data access layer (repository/service) currently backed by `localStorage`.
+2. Replace repository implementations with API calls (REST/GraphQL) or direct SDK access.
+3. Connect that API to a real database (e.g., Postgres, MySQL, SQLite, MongoDB).
+4. Keep UI components and game/task domain logic unchanged by preserving data contracts.
+
+In short: the persistence boundary should be the only place that changes when moving to a backend architecture.
