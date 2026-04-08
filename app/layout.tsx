@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Pet Quest',
-  description: 'Gamified productivity cockpit with a virtual companion.',
+  description: 'Gamified productivity cockpit with a virtual companion and local-first progress tracking.',
 };
 
 export default function RootLayout({

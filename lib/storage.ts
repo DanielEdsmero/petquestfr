@@ -1,4 +1,4 @@
-import { PetQuestState } from './types';
+import type { PetQuestState } from './types';
 
 const STORAGE_VERSION = 1;
 const STORAGE_KEY = `petquest:v${STORAGE_VERSION}`;
@@ -18,9 +18,9 @@ const DEFAULT_STATE: PetQuestState = {
     lastCompletionDate: null,
   },
   pet: {
-    mood: 'neutral',
-    wellness: 'medium',
-    energy: 'medium',
+    mood: 'idle',
+    energy: 50,
+    level: 1,
     stage: 'egg',
   },
   achievements: [],
@@ -38,23 +38,12 @@ function isBrowserStorageAvailable(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }
 
-/**
- * Migration guard for future schema upgrades.
- *
- * - Current version is loaded directly.
- * - Unknown or newer versions are ignored safely and fallback to defaults.
- * - Legacy keys can be handled here later when new versions are introduced.
- */
 function migrateToCurrentVersion(rawValue: string): PetQuestState {
   try {
     const parsed = JSON.parse(rawValue) as Partial<VersionedStoredState>;
-
     if (parsed.version === STORAGE_VERSION && parsed.state) {
       return parsed.state;
     }
-
-    // Future-proof migration guard:
-    // add explicit migrations, e.g. if (parsed.version === 0) { ... }
     return cloneDefaultState();
   } catch {
     return cloneDefaultState();
@@ -67,7 +56,6 @@ export function loadState(): PetQuestState {
   }
 
   const persisted = window.localStorage.getItem(STORAGE_KEY);
-
   if (!persisted) {
     return cloneDefaultState();
   }

@@ -12,7 +12,7 @@ export default function LandingPage() {
         </p>
         <div className="cta-row">
           <Link href="/dashboard" className="btn btn-primary">
-            Open Dashboard
+            Open PetQuest Dashboard
           </Link>
           <a href="#summary" className="btn btn-secondary">
             Explore Features

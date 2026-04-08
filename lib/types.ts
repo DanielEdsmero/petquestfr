@@ -1,12 +1,13 @@
 export type TaskPriority = 'low' | 'medium' | 'high';
 
 export interface PetQuestTask {
+  id: string;
   title: string;
-  description: string;
+  description?: string;
   dueDate: string | null;
   priority: TaskPriority;
-  category: string;
   completed: boolean;
+  completedAt: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -19,22 +20,18 @@ export interface PetQuestGamification {
   lastCompletionDate: string | null;
 }
 
-export type PetMood = 'sad' | 'neutral' | 'happy';
-export type PetWellness = 'low' | 'medium' | 'high';
-export type PetEnergy = 'low' | 'medium' | 'high';
-export type PetStage = 'egg' | 'baby' | 'adult';
+export type PetMood = 'idle' | 'happy' | 'energetic' | 'sleepy' | 'sad';
+export type PetGrowthStage = 'egg' | 'baby' | 'teen' | 'adult' | 'legendary';
 
 export interface PetQuestPet {
   mood: PetMood;
-  wellness: PetWellness;
-  energy: PetEnergy;
-  stage: PetStage;
+  energy: number;
+  level: number;
+  stage: PetGrowthStage;
 }
 
 export interface PetQuestAchievement {
-  id: string;
-  title: string;
-  description: string;
+  name: string;
   unlockedAt: string;
 }
 
@@ -44,7 +41,7 @@ export interface PetQuestSettings {
 }
 
 /**
- * Central application state for Pet Quest.
+ * Persisted application state for Pet Quest.
  */
 export interface PetQuestState {
   tasks: PetQuestTask[];
