@@ -148,6 +148,7 @@ export default function DashboardPage() {
           </ul>
 
           <div className="cta-row">
+            <Link href="/summary" className="btn btn-secondary">Explore Features</Link>
             <Link href="/admin" className="btn btn-secondary">Admin Panel</Link>
             <button className="btn btn-secondary" onClick={resetAllData}>Reset Progress</button>
             <button className="btn btn-danger" onClick={logout}>Logout</button>
