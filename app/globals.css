@@ -1,0 +1,366 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: radial-gradient(circle at top right, #2f1f63 0%, #0b1022 45%, #05070f 100%);
+  color: #f5f7ff;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.glass-card {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.hero {
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(86, 229, 255, 0.2);
+  color: #79f3ff;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.subtitle,
+.muted {
+  color: #cfd6ff;
+}
+
+.cta-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #3de7ff, #7d8dff);
+  color: #020617;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #eaf0ff;
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, #ff5a96, #ff7e66);
+  color: #14070a;
+}
+
+.summary-grid,
+.stats-grid,
+.content-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.summary-grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.feature-card,
+.panel,
+.stat-card {
+  padding: 1rem;
+}
+
+.dashboard {
+  padding-top: 1.25rem;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.stat-card p {
+  margin: 0;
+  color: #b8c3ff;
+  font-size: 0.85rem;
+}
+
+.stat-card h3 {
+  margin: 0.5rem 0 0;
+  color: #85f2ff;
+}
+
+.content-grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.task-panel {
+  grid-column: span 1;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+select {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 22, 46, 0.95);
+  color: #edf2ff;
+  border-radius: 10px;
+  padding: 0.45rem 0.6rem;
+}
+
+.task-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: rgba(7, 12, 29, 0.7);
+}
+
+.task-item h4 {
+  margin: 0;
+}
+
+.task-item p {
+  margin: 0.3rem 0 0;
+  color: #c0c9f4;
+  font-size: 0.85rem;
+}
+
+.pill {
+  text-transform: capitalize;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+}
+
+.pill.completed {
+  background: rgba(45, 218, 147, 0.2);
+  color: #64ffc8;
+}
+
+.pill.pending {
+  background: rgba(255, 183, 71, 0.2);
+  color: #ffd692;
+}
+
+.empty-state {
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  color: #cad4ff;
+}
+
+.progress-wrap {
+  margin-top: 0.8rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #d7deff;
+  margin-bottom: 0.35rem;
+}
+
+.progress-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: inherit;
+}
+
+.progress-fill.cyan {
+  background: linear-gradient(90deg, #56e5ff, #63b6ff);
+}
+
+.progress-fill.green {
+  background: linear-gradient(90deg, #7dffbc, #2ad793);
+}
+
+.progress-fill.pink {
+  background: linear-gradient(90deg, #ff6cb6, #ff8d6d);
+}
+
+.mini-chart {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.35rem;
+  align-items: end;
+  height: 120px;
+  margin-top: 0.8rem;
+}
+
+.mini-chart span {
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(180deg, #47ecff, #7779ff);
+}
+
+.goal-pill {
+  margin-top: 0.9rem;
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(125, 141, 255, 0.25);
+  color: #dbe3ff;
+}
+
+.achievements-grid {
+  margin-top: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.achievement {
+  border-radius: 12px;
+  padding: 0.7rem;
+  background: rgba(9, 16, 34, 0.75);
+  border: 1px solid rgba(130, 188, 255, 0.3);
+}
+
+.achievement span {
+  display: block;
+  margin-top: 0.3rem;
+  color: #84f8bf;
+  font-size: 0.78rem;
+}
+
+.skeleton-row {
+  height: 14px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.12));
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+  margin-top: 0.7rem;
+}
+
+.skeleton-row.short {
+  width: 70%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 8, 18, 0.75);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.modal {
+  max-width: 420px;
+  width: 100%;
+  padding: 1.2rem;
+}
+
+.modal p {
+  color: #cbd6ff;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 700px) {
+  .summary-grid,
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .content-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .task-panel {
+    grid-column: span 2;
+  }
+}
