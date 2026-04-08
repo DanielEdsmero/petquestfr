@@ -1,3 +1,18 @@
+# PetQuest (Next.js App Router)
+
+Client-side gamified productivity app scaffolded with Next.js + TypeScript + Tailwind.
+
+## Stack
+
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- lucide-react
+- framer-motion
+- sonner
+
+## Run locally
+
 # Pet Quest
 
 Pet Quest is a **gamified task management app** where productivity directly supports a **virtual pet companion**. Users create and complete tasks, earn progress rewards, and keep their pet happy through consistent daily habits. The project is designed to be **local-first** and simple to run, with all app state persisted in the browser.
@@ -26,6 +41,8 @@ Install dependencies and start the development server:
 npm install
 npm run dev
 ```
+
+Then open http://localhost:3000.
 
 Then open the local URL shown in your terminal (typically `http://localhost:3000`).
 
